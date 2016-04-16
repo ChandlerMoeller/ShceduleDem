@@ -13,19 +13,19 @@ the application, which then schedules people based on different circumstances an
 is shareable.
 
 Sprint 1:
--()As an average person, I want an intuitive UI that makes doing what I want easy (highest priority for sprint 1)
--()As a doodle poll user, I want to be able to view doodle poll results on my phone for scheduling
--()As a problem solver, I want scheduling to be done using a flexible, yet powerful method
+-(5)As an average person, I want an intuitive UI that makes doing what I want easy (highest priority for sprint 1)
+-(5)As a doodle poll user, I want to be able to view doodle poll results on my phone for scheduling
+-(5)As a problem solver, I want scheduling to be done using a flexible, yet powerful method
 
 Sprint 2:
--()As an event scheduler I want to be able to have options to improve scheduling for volunteer events
--()As a volunteer, I want to be able to view the modified schedule to see when I am needed
--()(Stretch): As an Event Administrator, I want to be able to send the modified schedule to the volunteers through the app via email
+-(2)As an event scheduler I want to be able to have options to improve scheduling for volunteer events
+-(3)As a volunteer, I want to be able to view the modified schedule to see when I am needed
+-(8)(Stretch): As an Event Administrator, I want to be able to send the modified schedule to the volunteers through the app via email
 
 Sprint 3:
--()As a Volunteer User, I want to be able to see Doodle XLS without the hassle of having to be sent it via email and loading it into the app
--()As a Volunteer User, I want to be able to see real time changes to the Modified XLS without the hassle of having to be resent the 
+-(5)As a Volunteer User, I want to be able to see Doodle XLS without the hassle of having to be sent it via email and loading it into the app
+-(2)As a Volunteer User, I want to be able to see real time changes to the Modified XLS without the hassle of having to be resent the 
        modified XLS via email after every change
--()As an Event Administrator, I want to be able to appoint other people that can edit the event
+-(5)As an Event Administrator, I want to be able to appoint other people that can edit the event
 
 
