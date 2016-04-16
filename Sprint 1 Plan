@@ -2,7 +2,7 @@ Sprint 1 Plan
 Product- ShceduleDem
 Team Name- Android: Moeller et. all
   Chandler Moeller (Product Owner)
-  Chris Canchola
+  Chris Canchola (SCRUM Master)
   Anthony Pan
   Brian Tsai
 Sprint Completion Date- April 22, 2016
@@ -10,21 +10,25 @@ Sprint Completion Date- April 22, 2016
 Goal: Have an app with a useable UI which gets the results of a Doodle poll, schedules those results, and displays the schedule.
 
 User Story 1: As an average person, I want an intuitive UI that makes doing what I want easy
--Base UI shell for the app (x hours)
-  Total for User Story 1: x hours
+-Wireframe UI (0.5 hours)
+-Help activity UI (0.5 hours)
+-Choose event file activity UI (5 hours)
+-Main activity shell UI (2 hours)
+  Total for User Story 1: 8 hours
   
 User Story 2: As a doodle poll user, I want to be able to view doodle poll results on my phone for scheduling
--Det XLS, convert to JSON (x hours)
--Display JSON through UI (x hours)
-  Total for User Story 1: 2x hours
+-Get XLS, convert to Java Objects (2 hours)
+-Wireframe Java Object to UI (1 hour)
+-Program display for Java Objects through UI (3 hours)
+  Total for User Story 1: 5 hours
   
 User Story 3: As a problem solver, I want scheduling to be done using a flexible, yet powerful method
--Make basic scheduling algorithm (x hours)
-  Total for User Story 1: x hours
+-Make basic scheduling algorithm (3 hours)
+  Total for User Story 1: 3 hours
 
 Task Assignments:
-Chandler Moeller- User Story 1, task 1
-Chris Canchola- User Story 2, task 2
+Chandler Moeller- User Story 1, tasks 1,2,3,4
+Chris Canchola- User Story 2, tasks 2,3
 Anthony Pan- User Story 2, task 1
 Brian Tsai- User Story 3, task 1
 
