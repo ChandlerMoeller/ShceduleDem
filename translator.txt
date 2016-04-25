@@ -1,0 +1,53 @@
+package schedule;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class translator {
+	public static void main(String[] args) throws IOException
+	{
+		String[][]storage = new String[100][100];
+		int a = -1;
+		int b = -1;
+				
+		//..
+		FileInputStream file = new FileInputStream(new File("C:\\Users\\tony\\Workspace\\schedule"));
+
+		//create workbook instance for XLS file 
+		XSSFWorkbook workbook = new XSSFWorkbook (file);
+
+		//create object to store the sheet
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		
+		//evaluates the cell type
+		FormulaEvaluator formula = workbook.getCreationHelper().createFormulaEvaluator();
+
+		for(Row row: sheet)
+		{	
+			a++;
+			for(Cell cell: row)
+			{
+				b++;
+				switch(formula.evaluateInCell(cell).getCellType())
+				{
+					case Cell.CELL_TYPE_BLANK:
+						storage[a][b] = null;
+						break;
+					case Cell.CELL_TYPE_STRING:
+						storage[a][b] = (cell.getStringCellValue());
+						break;
+					case Cell.CELL_TYPE_NUMERIC:
+						storage[a][b] = ((cell.getNumericCellValue()) + "");
+				}
+			}
+			b = -1;
+		}
+	}
+}
