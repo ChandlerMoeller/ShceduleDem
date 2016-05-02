@@ -12,4 +12,10 @@
     tools:context="com.cs115.shceduledem.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
 </RelativeLayout>
