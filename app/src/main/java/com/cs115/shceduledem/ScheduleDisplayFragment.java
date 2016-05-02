@@ -67,8 +67,6 @@ public class ScheduleDisplayFragment extends Fragment {
             //ayy.setText(aList.get(0).day);
 
 
-
-
         } catch (BiffException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -76,15 +74,18 @@ public class ScheduleDisplayFragment extends Fragment {
         }
 
 
-        final ListView ScheduleList = (ListView) getActivity().findViewById(R.id.ScheduleDisplayList);
-        if(ScheduleList != null) { // WHY IS SCHEDULELIST NULL HERE???????? IT SHOULDNT BE
-            ScheduleList.setAdapter(aa);
-        }
-        aa.notifyDataSetChanged();
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_schedule_display, container, false);
+    }
+
+    public void onStart(){
+        super.onStart();
+        final ListView ScheduleList = (ListView) getActivity().findViewById(R.id.ScheduleDisplayList);
+        ScheduleList.setAdapter(aa);
+        aa.notifyDataSetChanged();
     }
 
 
