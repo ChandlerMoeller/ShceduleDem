@@ -26,35 +26,29 @@ public class ScheduleDisplayFragment extends Fragment {
         return new ScheduleDisplayFragment();
     }
 
-    public ScheduleDisplayFragment(){
+    public ScheduleDisplayFragment() {
         // Required empty public constructor
     }
 
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         aList = new ArrayList<ScheduleElement>();
         aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
 
 
         try {
-            Workbook wkb =  Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath()+"/SHCEDULEDEM/Doodle.xls"));
+            Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + "/SHCEDULEDEM/Doodle.xls"));
 
-            //Obtain the reference to the first sheet in the workbook
             Sheet sheet = wkb.getSheet(0);
 
-            //Cell colArow1 = sheet.getCell(4, 4);
-            //Cell colBrow1 = sheet.getCell(4, 2);
-            //Cell colArow2 = sheet.getCell(4, 3);
 
-            //String str_colArow1 = colArow1.getContents();
-            //String str_colBrow1 = colBrow1.getContents();
-            //String str_colArow2 = colArow2.getContents();
-            //int x = sheet.getRows();
+            if (sheet.getCell(0, 4).getContents().equals("")) {
+                calendar(sheet);
+            } else {
+                freeText(sheet);
+            }
 
-        //TextView ayy = (TextView) findViewById(R.id.textView);
-        //ayy.setText(x+"");
-        // getCell() uses col, row
-        for(int i = 1;i < sheet.getColumns();++i){
+        /*for(int i = 1;i < sheet.getColumns();++i){
             Cell dayCell = sheet.getCell(i, 4);
             String dayString = dayCell.getContents();
             if(!dayString.equals("")) {
@@ -62,10 +56,7 @@ public class ScheduleDisplayFragment extends Fragment {
                 se.day = dayString;
                 aList.add(se);
             }
-        }
-
-            //ayy.setText(aList.get(0).day);
-
+        }*/
 
         } catch (BiffException e) {
             e.printStackTrace();
@@ -74,18 +65,104 @@ public class ScheduleDisplayFragment extends Fragment {
         }
 
 
-
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_schedule_display, container, false);
     }
 
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         final ListView ScheduleList = (ListView) getActivity().findViewById(R.id.ScheduleDisplayList);
         ScheduleList.setAdapter(aa);
         aa.notifyDataSetChanged();
+    }
+
+    private void freeText(Sheet sheet) {
+        for (int i = 1; i < sheet.getColumns(); ++i) { // iterate over times
+            Cell timeCell = sheet.getCell(i, 3);
+            String timeString = timeCell.getContents();
+            if (!timeString.equals("")) {
+                ScheduleElement se = new ScheduleElement();
+                se.time = timeString;
+                String peopleString = "";
+                String countString = "0";
+                String colon = "";
+                int timeStringCol = 1;
+                for (int col = 1; col < sheet.getColumns(); ++col) {
+                    if (sheet.getCell(col, 3).getContents().equals(timeString)) {
+                        timeStringCol = col;
+                    }
+                }
+                for (int j = 4; j < sheet.getRows(); ++j) { // iterate over people
+                    if (!sheet.getCell(0, j).getContents().equals("Count")) {
+                        colon = ":";
+                        peopleString += sheet.getCell(0, j).getContents();
+                        peopleString += colon;
+                        if (sheet.getCell(timeStringCol, j).getContents().equals("OK")) {
+                            peopleString += "OK,";
+                        } else {
+                            peopleString += "NO,";
+                        }
+                    } else {
+                        countString = sheet.getCell(timeStringCol, j).getContents();
+                    }
+                }
+                se.people = peopleString;
+                se.count = countString;
+                aList.add(se);
+            }
+        }
+    }
+
+    private void calendar(Sheet sheet) {
+        for (int i = 1; i < sheet.getColumns(); ++i) { // iterate over times
+            Cell timeCell = sheet.getCell(i, 5);
+            String timeString = timeCell.getContents();
+            if (!timeString.equals("")) {
+                ScheduleElement se = new ScheduleElement();
+                se.time = timeString;
+                String peopleString = "";
+                String monthString = "";
+                String dayString = "";
+                String countString = "0";
+                String colon = "";
+                int timeStringCol = 1;
+                for (int col = 1; col < sheet.getColumns(); ++col) {
+                    if (sheet.getCell(col, 5).getContents().equals(timeString)) {
+                        timeStringCol = col;
+                        //while(sheet.getCell(col, 4).getContents().equals("")) {
+                        //    --col;
+                        //}
+                        dayString = sheet.getCell(col, 4).getContents();
+                       // col = timeStringCol;
+                        //while(sheet.getCell(col, 3).getContents().equals("")) {
+                        //    --col;
+                        //}
+                        monthString = sheet.getCell(col, 3).getContents();
+                    }
+                }
+                for (int j = 6; j < sheet.getRows(); ++j) { // iterate over people
+                    if (!sheet.getCell(0, j).getContents().equals("Count")) {
+                        colon = ":";
+                        peopleString += sheet.getCell(0, j).getContents();
+                        peopleString += colon;
+                        if (sheet.getCell(timeStringCol, j).getContents().equals("OK")) {
+                            peopleString += "OK,";
+                        } else {
+                            peopleString += "NO,";
+                        }
+                    } else {
+                        countString = sheet.getCell(timeStringCol, j).getContents();
+                    }
+                }
+                se.people = peopleString;
+                se.count = countString;
+                se.day = dayString;
+                se.month = monthString;
+                aList.add(se);
+            }
+        }
     }
 
 

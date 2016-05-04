@@ -1,12 +1,18 @@
 package com.cs115.shceduledem;
 
 public class ScheduleElement {
-   ScheduleElement() {};
+   ScheduleElement() {
+       month = "";
+       day = "";
+       time = "";
+       people = "";
+       count = "0";
+   };
 
-   ScheduleElement(String _day){
-     day = _day;
-   }
-
+   public String month;
    public String day;
+   public String time;
+   public String people;
+   public String count;
 
 }

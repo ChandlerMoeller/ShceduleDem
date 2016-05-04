@@ -32,11 +32,23 @@ public class ScheduleDisplayAdapter extends ArrayAdapter<ScheduleElement> {
         LayoutInflater vi = (LayoutInflater) getContext().getSystemService(inflater);
         vi.inflate(resource, newView, true);
 
+        TextView month = (TextView) newView.findViewById(R.id.monthItem);
         TextView day = (TextView) newView.findViewById(R.id.dayItem);
         TextView time = (TextView) newView.findViewById(R.id.timeItem);
         TextView people = (TextView) newView.findViewById(R.id.peopleItem);
+        TextView count = (TextView) newView.findViewById(R.id.countItem);
 
-        day.setText(w.day);
+
+        if(!w.month.equals("")){
+            month.setText(w.month);
+        }
+        if(!w.day.equals("")){
+            day.setText(w.day);
+        }
+        time.setText(w.time);
+        people.setText(w.people);
+        count.setText(w.count);
+
 
         return newView;
     }
