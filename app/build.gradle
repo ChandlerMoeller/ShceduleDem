@@ -20,11 +20,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'net.sourceforge.jexcelapi:jxl:2.6.12'
-
-
+    compile 'net.sf.jung:jung-graph-impl:2.1'
+    compile 'net.sf.jung:jung-algorithms:2.1'
+    compile files('build/collections-generic-4.01.jar')
 }
