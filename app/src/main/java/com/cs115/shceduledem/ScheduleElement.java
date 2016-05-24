@@ -33,4 +33,40 @@ public class ScheduleElement {
         return toReturn;
     }
 
+    public String getName(){
+        return month+"::"+day+"::"+time;
+    }
+
+    public Boolean canTable(String name){
+        for (String response: people.split(",")
+             ) {
+            if(response.length()==0)continue;
+
+            int colonPlace = response.indexOf(':');
+
+            if(name.compareTo(response.substring(0,colonPlace)) == 0){
+                return response.substring(colonPlace+1, response.length()).compareTo("OK")==0;
+            }
+        }
+
+        return false;
+    }
+
+    public ArrayList<String> getCanTableList(){
+        ArrayList<String> toReturn = new ArrayList<String>();
+
+        for (String response: people.split(",")
+                ) {
+            if(response.length()==0)continue;
+
+            int colonPlace = response.indexOf(':');
+
+            if(response.substring(colonPlace+1, response.length()).compareTo("OK")==0){
+                toReturn.add(response.substring(0,colonPlace));
+            }
+        }
+
+        return toReturn;
+    }
+
 }
