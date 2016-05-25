@@ -24,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileBrowserActivity extends AppCompatActivity {
 
@@ -40,7 +42,6 @@ public class FileBrowserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,22 +56,45 @@ public class FileBrowserActivity extends AppCompatActivity {
         //Hide Fab until xls is found
         fab.hide();
 
+        //Gets the Download File of creates it if it doesnt exist
+        File dir = new File(Environment.getExternalStorageDirectory(), "Download");
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
         //Gets the SHCEDULEDEM File of creates it if it doesnt exist
         File dir2 = new File(Environment.getExternalStorageDirectory(), "SHCEDULEDEM");
         if (!dir2.exists()) {
             dir2.mkdirs();
         }
-        //Refreshes dir
+
+        //Refreshes both dirs
         MediaScannerConnection.scanFile(this, new String[] {dir2.toString()}, null, null);
+        MediaScannerConnection.scanFile(this, new String[] {dir.toString()}, null, null);
+
         //Gets all the files in the dir
-        File listfiles[] = dir2.listFiles();
+        File listfilesSHEDULEDEM[] = dir2.listFiles();
+        final File listfilesDownload[] = dir.listFiles();
+
+        List<String> listfileitems = new ArrayList<String>();
+        final List<String> filesinDownload = new ArrayList<String>();
+
         //Puts all the file names in dir into a string array
-        if(listfiles != null) {
-            listitems = new String[listfiles.length];
-            for (int i = 0; i < listfiles.length; i++) {
-                listitems[i] = listfiles[i].getName();
+        if(listfilesSHEDULEDEM != null && listfilesDownload != null) {
+            for (int i = 0; i < listfilesSHEDULEDEM.length; i++) {
+                if(isxls(listfilesSHEDULEDEM[i].getName())) {
+                    listfileitems.add(listfilesSHEDULEDEM[i].getName());
+                }
+            }
+            for (int i = listfilesSHEDULEDEM.length; i < listfilesSHEDULEDEM.length + listfilesDownload.length; i++) {
+                if(isxls(listfilesDownload[i - listfilesSHEDULEDEM.length].getName())) {
+                    listfileitems.add(listfilesDownload[i - listfilesSHEDULEDEM.length].getName());
+                    filesinDownload.add(listfilesDownload[i - listfilesSHEDULEDEM.length].getName());
+                }
             }
         }
+
+        String[] listitems = listfileitems.toArray(new String[listfileitems.size()]);
 
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listitems);
         filebrowserlistview = (ListView) findViewById(R.id.filebrowserlistview);
@@ -86,7 +110,15 @@ public class FileBrowserActivity extends AppCompatActivity {
                     Log.d("FileExtension", "" + ext[ext.length - 1]);
                     //If the filename is xls then fab is displayed
                     if(ext[ext.length - 1].equals("xls")) {
-                        xlsfile = Environment.getExternalStorageDirectory().toString() + "/SHCEDULEDEM/" +((String)parent.getItemAtPosition(position));
+                        if(isinDownloadfoler(((String)parent.getItemAtPosition(position)), filesinDownload)) {
+                            //xlsfile = Environment.getExternalStorageDirectory().toString() + "/Download/" + ((String) parent.getItemAtPosition(position));
+                            //xlsfile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+                            xlsfile = "/Download/" + ((String) parent.getItemAtPosition(position));
+                            Log.d("Test1", "True-Download");
+                        } else {
+                            //xlsfile = Environment.getExternalStorageDirectory().toString() + "/SHCEDULEDEM/" + ((String) parent.getItemAtPosition(position));
+                            xlsfile = "/SHCEDULEDEM/" + ((String) parent.getItemAtPosition(position));
+                        }
                         Log.d("filexls", ""+xlsfile);
                         fab.show();
                     } else {
@@ -110,6 +142,30 @@ public class FileBrowserActivity extends AppCompatActivity {
 
     }
 
+    public Boolean isxls (String file) {
+        String[] ext = file.split("\\.");
+        if(ext.length>1) {
+            Log.d("FileExtension", "" + ext[ext.length - 1]);
+            //If the filename is xls then fab is displayed
+            if(ext[ext.length - 1].equals("xls")) {
+                //xlsfile = Environment.getExternalStorageDirectory().toString() + "/SHCEDULEDEM/" +((String)parent.getItemAtPosition(position));
+                Log.d("filexls", ""+xlsfile);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean isinDownloadfoler (String file, List<String> list) {
+        for(String str: list) {
+            if(str.trim().contains(file))
+                return true;
+        }
+        return false;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

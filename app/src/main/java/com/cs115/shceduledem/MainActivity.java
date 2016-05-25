@@ -1,5 +1,6 @@
 package com.cs115.shceduledem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent intent = getIntent();
+        String xlsfile = intent.getStringExtra("xlsfile");
+        Log.d("Test1", "XLSFILE IS:"+xlsfile);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ScheduleDisplayFragment sdf = new ScheduleDisplayFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("xlsfile", xlsfile);
+            sdf.setArguments(bundle);
+
             ft.add(R.id.fragment_container, sdf);
             ft.commit();
         }

@@ -3,6 +3,7 @@ package com.cs115.shceduledem;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,16 @@ public class ScheduleDisplayFragment extends Fragment {
         aList = new ArrayList<ScheduleElement>();
         aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
 
+        String xlsfile = "";
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            xlsfile = bundle.getString("xlsfile");
+        }
+        Log.d("Test1", "SDF XLS IS: " + xlsfile);
 
         try {
-            Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + "/SHCEDULEDEM/Doodle.xls"));
+            //Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + "/SHCEDULEDEM/Doodle.xls"));
+            Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + xlsfile));
 
             Sheet sheet = wkb.getSheet(0);
 
