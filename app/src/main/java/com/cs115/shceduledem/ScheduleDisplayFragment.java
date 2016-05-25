@@ -56,6 +56,8 @@ public class ScheduleDisplayFragment extends Fragment {
                 freeText(sheet);
             }
 
+            NetworkMaker myNetwork = new NetworkMaker(aList);
+
         /*for(int i = 1;i < sheet.getColumns();++i){
             Cell dayCell = sheet.getCell(i, 4);
             String dayString = dayCell.getContents();

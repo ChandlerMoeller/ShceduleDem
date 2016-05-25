@@ -30,6 +30,8 @@ public class NetworkMaker {
     private Number source;
     private Number sink;
     private int volunteerQuota = 5;
+    private DirectedGraph<Number,Number> flowGraph;
+    private int maxFlow;
 
     NetworkMaker(){
     }
@@ -135,8 +137,10 @@ public class NetworkMaker {
                         //MapTransformer.<Number, Number>getInstance(edgeCapacityMap),
                         edgeFlowMap,
                         edgeFactory);
+        ek.evaluate();
 
-
+        flowGraph = ek.getFlowGraph();
+        maxFlow = ek.getMaxFlow();
     }
 
     public int getNodeIDFromVolunteerName(String name){
