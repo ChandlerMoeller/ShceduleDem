@@ -141,15 +141,16 @@ public class ScheduleDisplayFragment extends Fragment {
                 for (int col = 1; col < sheet.getColumns(); ++col) {
                     if (sheet.getCell(col, 5).getContents().equals(timeString)) {
                         timeStringCol = col;
-                        //while(sheet.getCell(col, 4).getContents().equals("")) {
-                        //    --col;
-                        //}
+                        while(sheet.getCell(col, 4).getContents().equals("")) {
+                            --col;
+                        }
                         dayString = sheet.getCell(col, 4).getContents();
-                       // col = timeStringCol;
-                        //while(sheet.getCell(col, 3).getContents().equals("")) {
-                        //    --col;
-                        //}
+                        col = timeStringCol;
+                        while(sheet.getCell(col, 3).getContents().equals("")) {
+                            --col;
+                        }
                         monthString = sheet.getCell(col, 3).getContents();
+                        col = timeStringCol;
                     }
                 }
                 for (int j = 6; j < sheet.getRows(); ++j) { // iterate over people
