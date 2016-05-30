@@ -1,12 +1,16 @@
 package com.cs115.shceduledem;
 
+import android.util.Log;
+
 import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import edu.uci.ics.jung.algorithms.flows.EdmondsKarpMaxFlow;
 import edu.uci.ics.jung.graph.DirectedGraph;
@@ -20,7 +24,9 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 public class NetworkMaker {
     private ArrayList<ScheduleElement> schedList;
     private HashMap<String,Integer> volunteers;
+    private HashMap<Integer,String> volunteersYellowBook;
     private HashMap<String,Integer> tables;
+    private HashMap<Integer,String> tablesYellowBook;
     private int volunteerCount = 0;
     private int tableCount = 0;
     private DirectedGraph<Number,Number> graph;
@@ -39,7 +45,9 @@ public class NetworkMaker {
     NetworkMaker(ArrayList<ScheduleElement> newList){
         schedList = newList;
         volunteers = new HashMap<>();
+        volunteersYellowBook = new HashMap<>();
         tables = new HashMap<>();
+        tablesYellowBook = new HashMap<>();
         graph = new DirectedSparseMultigraph<Number,Number>();
         edgeFactory = new Factory<Number>() {
             int count = 0;
@@ -65,6 +73,7 @@ public class NetworkMaker {
                 if(!volunteers.containsKey(name)){
                     int ID = volunteerCount++;
                     volunteers.put(name,ID);
+                    volunteersYellowBook.put(ID,name);
                     graph.addVertex(ID);
                 }
             }
@@ -83,6 +92,7 @@ public class NetworkMaker {
             if(!tables.containsKey(name)){
                 int ID = volunteerCount+tableCount++;
                 tables.put(name,ID);
+                tablesYellowBook.put(ID,name);
                 graph.addVertex(ID);
             }
         }
@@ -141,15 +151,64 @@ public class NetworkMaker {
 
         flowGraph = ek.getFlowGraph();
         maxFlow = ek.getMaxFlow();
+
+        Log.d("maxFlow", new String(""+maxFlow));
+
+
+        Collection<Number> myEdges = flowGraph.getEdges();
+
+        for (Number e: myEdges
+             ) {
+
+            Log.d("edge", "ID:"+e.toString() + " connects ");
+        }
+
+        Collection<Number> myVertices = flowGraph.getVertices();
+
+        for (Number v: myVertices
+             ) {
+
+            Log.d("vertex", "ID: "+v.toString() + ", Name: " + nodeNameLookUpFromID(v.intValue()));
+
+        }
+
+    }
+
+    public String nodeNameLookUpFromID(Number id){
+
+        if(getVolunteerNameFromNodeID(id) != null){
+            return getVolunteerNameFromNodeID(id);
+        }
+        if(getTableNameFromNodeID(id) != null){
+            return getTableNameFromNodeID(id);
+        }
+        if(id.intValue() == source.intValue()){
+            return "source";
+        }
+        if(id.intValue() == sink.intValue()){
+            return "sink";
+        }
+
+        return null;
     }
 
     public int getNodeIDFromVolunteerName(String name){
         return volunteers.get(name);
     }
 
+    public String getVolunteerNameFromNodeID(Number node){
+        return volunteersYellowBook.get(node);
+    }
+
     public int getNodeIDFromTableName(String name){
         return tables.get(name);
     }
+
+    public String getTableNameFromNodeID(Number node){
+        return tablesYellowBook.get(node);
+    }
+
+
 
     /** Precondition: The constructor has already read in
      *  volunteers and tables from the schedEles arraylist
