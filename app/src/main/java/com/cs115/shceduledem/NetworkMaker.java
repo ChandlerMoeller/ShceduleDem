@@ -160,8 +160,19 @@ public class NetworkMaker {
 
         for (Number e: myEdges
              ) {
-
-            Log.d("edge", "ID:"+e.toString() + " connects ");
+            Collection<Number> incidents = flowGraph.getIncidentVertices(e);
+            boolean flip = false;
+            String connectors = "";
+            for (Number v: incidents
+                 ) {
+                if(!flip){
+                    connectors += nodeNameLookUpFromID(v);
+                    flip = true;
+                }else{
+                    connectors += " to " + nodeNameLookUpFromID(v);
+                }
+            }
+            Log.d("edge", "ID:"+e.toString() + " connects " + connectors);
         }
 
         Collection<Number> myVertices = flowGraph.getVertices();
