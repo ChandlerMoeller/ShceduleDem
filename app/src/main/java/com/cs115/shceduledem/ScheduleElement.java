@@ -17,6 +17,12 @@ public class ScheduleElement {
    public String people;
    public String count;
 
+    public String toString(){
+        return "Month: " + month + ", Day: " + day +
+                ", Time: " + time + ", People: " + people +
+                ", Count: " + count;
+    }
+
     /**
      * Precondition: people is a string that follows regex A(,A)*
      *               where A follows [name]:[[OK]+[NO]]

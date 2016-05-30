@@ -94,6 +94,7 @@ public class NetworkMaker {
                 tables.put(name,ID);
                 tablesYellowBook.put(ID,name);
                 graph.addVertex(ID);
+                Log.d("AddingVertex", ele.toString() + " aka: " + name + "," + ID);
             }
         }
 
