@@ -3,6 +3,7 @@
     <string name="action_help">Help</string>
     <string name="action_switchadmin">Switch to Admin</string>
     <string name="action_switchuser">Switch to User</string>
+    <string name="action_share_email">Share via email</string>
     <string name="title_activity_main">User View</string>
     <string name="title_activity_admin">Admin View</string>
     <string name="action_settings">Settings</string>

@@ -1,7 +1,10 @@
 package com.cs115.shceduledem;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
+
+    String xlsfile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        String xlsfile = intent.getStringExtra("xlsfile");
-        Log.d("Test1", "XLSFILE IS:"+xlsfile);
+        Intent current_intent = getIntent();
+        xlsfile = current_intent.getStringExtra("xlsfile");
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -57,9 +65,17 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_help) {
-            //Intent intent = new Intent(MainActivity.this, HelpActivity.class);
-            //startActivity(intent);
+        if (id == R.id.action_share_email) {
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("vnd.android.cursor.dir/email");
+            //intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"email@example.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "[ScheduleDem] Here is the Schedule");
+            intent.putExtra(Intent.EXTRA_TEXT, "Hi,\nHere is the schedule!");
+            Uri uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory().getPath() + xlsfile));
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, "Send Email..."));
+
             return true;
         }
 

@@ -1,6 +1,8 @@
 package com.cs115.shceduledem;
 
+import android.content.Intent;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;

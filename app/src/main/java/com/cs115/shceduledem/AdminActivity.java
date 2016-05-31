@@ -1,7 +1,9 @@
 package com.cs115.shceduledem;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.File;
+
 public class AdminActivity extends AppCompatActivity {
+
+    String xlsfile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +24,10 @@ public class AdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent current_intent = getIntent();
+        xlsfile = current_intent.getStringExtra("xlsfile");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -27,7 +37,6 @@ public class AdminActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -46,15 +55,21 @@ public class AdminActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_help) {
-            //Intent intent = new Intent(MainActivity.this, HelpActivity.class);
-            //startActivity(intent);
+        if (id == R.id.action_share_email) {
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("vnd.android.cursor.dir/email");
+            //intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"email@example.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT, "[ScheduleDem] Here is the Schedule");
+            intent.putExtra(Intent.EXTRA_TEXT, "Hi,\nHere is the schedule!");
+            Uri uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory().getPath() + xlsfile));
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(intent, "Send Email..."));
+
             return true;
         }
 
         if (id == R.id.action_switchuser) {
-            Intent current_intent = getIntent();
-            String xlsfile = current_intent.getStringExtra("xlsfile");
 
             if(xlsfile!=null) {
                 Intent intent = new Intent(AdminActivity.this, MainActivity.class);
