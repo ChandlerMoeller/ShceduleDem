@@ -1,9 +1,11 @@
 package com.cs115.shceduledem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -80,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_switchadmin) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor e = settings.edit();
+            e.putBoolean("user", false);
+            e.commit();
+
             Intent current_intent = getIntent();
             String xlsfile = current_intent.getStringExtra("xlsfile");
 

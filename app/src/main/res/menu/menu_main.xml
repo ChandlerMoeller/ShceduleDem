@@ -4,9 +4,10 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/action_share_email"
+        android:icon="@drawable/ic_share_white_24dp"
         android:orderInCategory="100"
         android:title="@string/action_share_email"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_switchadmin"
         android:orderInCategory="100"
