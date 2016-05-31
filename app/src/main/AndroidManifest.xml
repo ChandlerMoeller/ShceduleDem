@@ -32,7 +32,15 @@
         </activity>
         <activity
             android:name=".HelpActivity"
-            android:parentActivityName=".FileBrowserActivity">
+            android:parentActivityName=".FileBrowserActivity"></activity>
+        <activity
+            android:name=".AdminActivity"
+            android:label="@string/title_activity_admin"
+            android:parentActivityName=".FileBrowserActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cs115.shceduledem.FileBrowserActivity" />
         </activity>
     </application>
 
