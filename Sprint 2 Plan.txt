@@ -1,4 +1,5 @@
 Sprint 2 Plan
+
 Product - ScheduleDem
 Team name - Android: Moeller et. all 
 Members: Chandler Moeller (Product Owner)
@@ -6,7 +7,7 @@ Members: Chandler Moeller (Product Owner)
 	 Bryan Tsai
 	 Chris Canchola
 
-Sprint Completion Date: 5/13/16
+Sprint Completion Date: 5/24/16
 
 Goal: Have an improved app that has the implements of the first UI plus 
 modifications based on time matches and event administrator control.
