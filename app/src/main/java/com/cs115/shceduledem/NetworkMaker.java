@@ -161,6 +161,11 @@ public class NetworkMaker {
 
         Collection<Number> myEdges = flowGraph.getEdges();
 
+        /**
+         *  Prints debug information about the max flow graph
+         */
+
+        /**
         for (Number e: myEdges
              ) {
             Collection<Number> incidents = flowGraph.getIncidentVertices(e);
@@ -171,13 +176,21 @@ public class NetworkMaker {
                 if(!flip){
                     connectors += nodeNameLookUpFromID(v);
                     flip = true;
+                    if(edgeFlowMap.get(e).intValue()==1 && getVolunteerNameFromNodeID(v)!= null){
+                        Log.d("findingFlows", "YADAAA");
+                    }
                 }else{
                     connectors += " to " + nodeNameLookUpFromID(v);
                 }
             }
             Log.d("edge", "ID:"+e.toString() + " connects " + connectors + " with flow " + edgeFlowMap.get(e).intValue());
         }
+        */
 
+
+
+
+        /**
         Collection<Number> myVertices = flowGraph.getVertices();
 
         for (Number v: myVertices
@@ -186,15 +199,50 @@ public class NetworkMaker {
             Log.d("vertex", "ID: "+v.toString() + ", Name: " + nodeNameLookUpFromID(v.intValue()));
 
         }
+         */
+
+
         /** Gets the assignment of volunteers to tables in the form
          *  of ScheduleElements
          */
 
+        for (Map.Entry<String, Number> edge: tables.entrySet()
+                ) {
+            Number e = edge.getValue();
+            ArrayList<String> assignedVolunteers = new ArrayList<String>();
+            Log.d("TableNameTest", getTableNameFromNodeID(e));
+
+            Collection<Number> incidentEdges = flowGraph.getIncidentEdges(e);
+
+            boolean flip = false;
+            for (Number dirEdge: incidentEdges
+                 ) {
+                // For some reason there are 6 incident edges, 5 linking person to table,
+                // and 1 from table to sink. So flip/break is necessary
+                if(flip)break;
+
+                for (Number vertex: flowGraph.getIncidentVertices(dirEdge)
+                     ) {
+                    if(getVolunteerNameFromNodeID(vertex)!=null && edgeFlowMap.get(e).intValue() != 0){
+                        //Log.d("test","SUPERYADAA!!! Assigned " +getVolunteerNameFromNodeID(vertex) + " to " + edge.getKey() + "with flow: " + edgeFlowMap.get(e).intValue());
+                        assignedVolunteers.add(getVolunteerNameFromNodeID(vertex));
+
+                        flip = true;
+                    }
+                }
+
+            }
+
+            ScheduleElement se = new ScheduleElement(getTableNameFromNodeID(e),assignedVolunteers);
+            solutionList.add(se);
+        }
+
+        /**
         for (Map.Entry<String, Number> e: tables.entrySet()
              ) {
 
 
-            Collection<Number> incidents = flowGraph.getIncidentVertices(e.getValue());
+            Collection<Number> incidents = flowGraph.getIncidentEdges(e.getValue());
             ArrayList<String> assignedVolunteers = new ArrayList<String>();
             boolean flip = false;
             String connectors = "";
@@ -221,7 +269,7 @@ public class NetworkMaker {
             solutionList.add(ele);
 
         }
-
+        */
         for (ScheduleElement ele: solutionList
              ) {
             Log.d("Solution:", ele.toString());
@@ -256,7 +304,7 @@ public class NetworkMaker {
     }
 
     public String getVolunteerNameFromNodeID(Number node){
-        return volunteersYellowBook.get(nodeg);
+        return volunteersYellowBook.get(node);
     }
 
     public Number getNodeIDFromTableName(String name){
