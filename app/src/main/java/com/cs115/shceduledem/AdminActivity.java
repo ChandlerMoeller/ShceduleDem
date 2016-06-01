@@ -7,55 +7,45 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity {
 
     String xlsfile = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setContentView(R.layout.activity_admin);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent current_intent = getIntent();
         xlsfile = current_intent.getStringExtra("xlsfile");
 
-        if (findViewById(R.id.fragment_container) != null) {
-
-            if (savedInstanceState != null) {
-                return;
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "This will run the algorithm", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ScheduleDisplayFragment sdf = new ScheduleDisplayFragment();
-
-            Bundle bundle = new Bundle();
-            bundle.putString("xlsfile", xlsfile);
-            sdf.setArguments(bundle);
-
-            ft.add(R.id.fragment_container, sdf);
-            ft.commit();
-        }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_admin, menu);
         return true;
     }
 
@@ -81,17 +71,15 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.action_switchadmin) {
-            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor e = settings.edit();
-            e.putBoolean("user", false);
-            e.commit();
-
-            Intent current_intent = getIntent();
-            String xlsfile = current_intent.getStringExtra("xlsfile");
+        if (id == R.id.action_switchuser) {
 
             if(xlsfile!=null) {
-                Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor e = settings.edit();
+                e.putBoolean("user", true);
+                e.commit();
+
+                Intent intent = new Intent(AdminActivity.this, MainActivity.class);
                 intent.putExtra("xlsfile", xlsfile);
                 startActivity(intent);
             }

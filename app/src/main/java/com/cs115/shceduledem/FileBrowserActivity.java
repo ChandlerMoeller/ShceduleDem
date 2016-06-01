@@ -1,12 +1,12 @@
 package com.cs115.shceduledem;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaScannerConnection;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,14 +16,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +35,25 @@ public class FileBrowserActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences.Editor e = settings.edit();
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(xlsfile!=null) {
-                    Intent intent = new Intent(FileBrowserActivity.this, MainActivity.class);
-                    intent.putExtra("xlsfile", xlsfile);
-                    startActivity(intent);
+                    e.putString("xlsfile", xlsfile);
+                    e.commit();
+                    if(settings.getBoolean("user", true)) {
+                        Intent intent = new Intent(FileBrowserActivity.this, MainActivity.class);
+                        intent.putExtra("xlsfile", xlsfile);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(FileBrowserActivity.this, AdminActivity.class);
+                        intent.putExtra("xlsfile", xlsfile);
+                        startActivity(intent);
+                    }
                 }
             }
         });
@@ -170,7 +174,7 @@ public class FileBrowserActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_browser, menu);
         return true;
     }
 
