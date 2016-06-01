@@ -11,6 +11,39 @@ public class ScheduleElement {
        count = "0";
    };
 
+    ScheduleElement(String name, ArrayList<String> peepz) {
+        month = "";
+        day = "";
+        time = "";
+        people = "";
+        count = "0";
+        int count = 0;
+        for (String s: name.split("::")
+             ) {
+            switch(count){
+                case 0:
+                    month = s;
+                    break;
+                case 1:
+                    day = s;
+                    break;
+                case 2:
+                    time = s;
+                    break;
+                default:
+                    break;
+
+            }
+            ++count;
+        }
+        count = 0;
+        for (String person: peepz
+             ) {
+            people += person + ":OK,";
+            count++;
+        }
+        this.count = ""+count;
+    };
    public String month;
    public String day;
    public String time;

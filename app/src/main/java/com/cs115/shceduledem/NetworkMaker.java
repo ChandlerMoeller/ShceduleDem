@@ -6,6 +6,7 @@ import org.apache.commons.collections15.Factory;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.functors.MapTransformer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,10 +24,11 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  */
 public class NetworkMaker {
     private ArrayList<ScheduleElement> schedList;
-    private HashMap<String,Integer> volunteers;
-    private HashMap<Integer,String> volunteersYellowBook;
-    private HashMap<String,Integer> tables;
-    private HashMap<Integer,String> tablesYellowBook;
+    private ArrayList<ScheduleElement> solutionList;
+    private HashMap<String,Number> volunteers;
+    private HashMap<Number,String> volunteersYellowBook;
+    private HashMap<String,Number> tables;
+    private HashMap<Number,String> tablesYellowBook;
     private int volunteerCount = 0;
     private int tableCount = 0;
     private DirectedGraph<Number,Number> graph;
@@ -44,6 +46,7 @@ public class NetworkMaker {
 
     NetworkMaker(ArrayList<ScheduleElement> newList){
         schedList = newList;
+        solutionList = new ArrayList<ScheduleElement>();
         volunteers = new HashMap<>();
         volunteersYellowBook = new HashMap<>();
         tables = new HashMap<>();
@@ -106,7 +109,7 @@ public class NetworkMaker {
         /** Links the source to each volunteer node with capacity equal to
          *  the volunteerQuota
          */
-        for (Map.Entry<String,Integer> entry: volunteers.entrySet()
+        for (Map.Entry<String,Number> entry: volunteers.entrySet()
              ) {
             Number edge = edgeFactory.create();
             graph.addEdge(edge,source,entry.getValue(), EdgeType.DIRECTED);
@@ -116,7 +119,7 @@ public class NetworkMaker {
         /** Links each table node to the sink with capacity equal to
          *  number of volunteers.
          */
-        for (Map.Entry<String,Integer> entry: tables.entrySet()
+        for (Map.Entry<String,Number> entry: tables.entrySet()
              ) {
             Number edge = edgeFactory.create();
             graph.addEdge(edge, entry.getValue(),sink,EdgeType.DIRECTED);
@@ -172,7 +175,7 @@ public class NetworkMaker {
                     connectors += " to " + nodeNameLookUpFromID(v);
                 }
             }
-            Log.d("edge", "ID:"+e.toString() + " connects " + connectors);
+            Log.d("edge", "ID:"+e.toString() + " connects " + connectors + " with flow " + edgeFlowMap.get(e).intValue());
         }
 
         Collection<Number> myVertices = flowGraph.getVertices();
@@ -183,7 +186,51 @@ public class NetworkMaker {
             Log.d("vertex", "ID: "+v.toString() + ", Name: " + nodeNameLookUpFromID(v.intValue()));
 
         }
+        /** Gets the assignment of volunteers to tables in the form
+         *  of ScheduleElements
+         */
 
+        for (Map.Entry<String, Number> e: tables.entrySet()
+             ) {
+
+
+            Collection<Number> incidents = flowGraph.getIncidentVertices(e.getValue());
+            ArrayList<String> assignedVolunteers = new ArrayList<String>();
+            boolean flip = false;
+            String connectors = "";
+            for (Number v: incidents
+                    ) {
+                Log.d("NodeID:", v.toString());
+                if(v.intValue() != sink.intValue()){
+                    Log.d("MakingSolution", "pre-yay");
+                    if(edgeFlowMap.get(v).intValue()!=0){
+                        assignedVolunteers.add(getVolunteerNameFromNodeID(v));
+                        Log.d("MakingSolution", "yay");
+                    }
+                }
+                if(!flip){
+                    connectors += nodeNameLookUpFromID(v);
+                    flip = true;
+                }else{
+                    connectors += " to " + nodeNameLookUpFromID(v);
+                }
+            }
+            Log.d("edgeTest", "ID:"+e.getValue().toString() + " connects " + connectors + " with flow " + edgeFlowMap.get(e.getValue()).intValue());
+
+            ScheduleElement ele = new ScheduleElement(getVolunteerNameFromNodeID(e.getValue()), assignedVolunteers);
+            solutionList.add(ele);
+
+        }
+
+        for (ScheduleElement ele: solutionList
+             ) {
+            Log.d("Solution:", ele.toString());
+        }
+
+    }
+
+    public ArrayList<ScheduleElement> getSolutionList(){
+        return solutionList;
     }
 
     public String nodeNameLookUpFromID(Number id){
@@ -204,15 +251,15 @@ public class NetworkMaker {
         return null;
     }
 
-    public int getNodeIDFromVolunteerName(String name){
+    public Number getNodeIDFromVolunteerName(String name){
         return volunteers.get(name);
     }
 
     public String getVolunteerNameFromNodeID(Number node){
-        return volunteersYellowBook.get(node);
+        return volunteersYellowBook.get(nodeg);
     }
 
-    public int getNodeIDFromTableName(String name){
+    public Number getNodeIDFromTableName(String name){
         return tables.get(name);
     }
 
