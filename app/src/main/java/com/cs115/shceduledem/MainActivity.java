@@ -16,12 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
     String xlsfile = "";
+    Boolean editalgorithm = false;
+    int newquota = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent current_intent = getIntent();
         xlsfile = current_intent.getStringExtra("xlsfile");
+        editalgorithm = current_intent.getBooleanExtra("editalgorithm", false);
+        newquota = current_intent.getIntExtra("newquota", -1);
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle bundle = new Bundle();
             bundle.putString("xlsfile", xlsfile);
+            bundle.putBoolean("editalgorithm", editalgorithm);
+            bundle.putInt("newquota", newquota);
             sdf.setArguments(bundle);
 
             ft.add(R.id.fragment_container, sdf);

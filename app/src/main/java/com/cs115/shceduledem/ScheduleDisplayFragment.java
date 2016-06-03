@@ -1,7 +1,9 @@
 package com.cs115.shceduledem;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -24,6 +26,23 @@ public class ScheduleDisplayFragment extends Fragment {
 
     private ArrayList<ScheduleElement> aList;
     private ScheduleDisplayAdapter aa;
+    String xlsfile = "";
+
+    //
+    //TODO: Chris, if this is true then we need to rewrite the XLS/MOD XLS into a MOD XLX and use newquota as the new quota
+    //
+    //This will be true if coming from Admin Options
+    Boolean editalgorithm = false;
+    int quota = -1;
+
+    //
+    //TODO: Chris, update the below variable (ismodified) from the XLS
+    //
+    //This will be true if we are dealing with a modified XLS
+    //This will be used as a check (i.e. if someone tries to switch to scheduleview with an UNMODIFIED schedule)
+    Boolean ismodified = false;
+    //This is will be true if the user wants to view the scheduleview, I will hand this in
+    Boolean scheduledview = false;
 
     public static ScheduleDisplayFragment newInstance() {
         return new ScheduleDisplayFragment();
@@ -38,15 +57,16 @@ public class ScheduleDisplayFragment extends Fragment {
         aList = new ArrayList<ScheduleElement>();
         aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
 
-        String xlsfile = "";
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             xlsfile = bundle.getString("xlsfile");
+            editalgorithm = bundle.getBoolean("editalgorithm", false);
+            quota = bundle.getInt("newquota", -1);
+            scheduledview = bundle.getBoolean("scheduleview", false);
         }
         Log.d("Test1", "SDF XLS IS: " + xlsfile);
 
         try {
-            //Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + "/SHCEDULEDEM/Doodle.xls"));
             Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + xlsfile));
 
             Sheet sheet = wkb.getSheet(0);
@@ -58,8 +78,29 @@ public class ScheduleDisplayFragment extends Fragment {
                 freeText(sheet);
             }
 
-            NetworkMaker myNetwork = new NetworkMaker(aList);
-            Log.d("Network", myNetwork.toString());
+
+            //
+            //TODO: Chris, this is where the algorithm is run
+            //
+
+            //If the XLS is modified AND we are scheduleview we will need to run the algorithm
+                //Chris, you should update the quota if it is modified
+            //If editaglorithm is true then we are coming from admin options
+                //In this case the chosen quota option has been passed in already and is the quota variable
+            if((ismodified && scheduledview) || editalgorithm) {
+                NetworkMaker myNetwork = new NetworkMaker(aList, quota);
+                Log.d("Network", myNetwork.toString());
+
+                aList = myNetwork.getSolutionList();
+
+                //
+                //TODO: Chris, write the new XLS here
+                //
+
+            }
+
+
+
         /*for(int i = 1;i < sheet.getColumns();++i){
             Cell dayCell = sheet.getCell(i, 4);
             String dayString = dayCell.getContents();

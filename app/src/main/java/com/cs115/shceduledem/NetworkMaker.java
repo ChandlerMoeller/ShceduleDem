@@ -44,7 +44,8 @@ public class NetworkMaker {
     NetworkMaker(){
     }
 
-    NetworkMaker(ArrayList<ScheduleElement> newList){
+    NetworkMaker(ArrayList<ScheduleElement> newList, int givenquota){
+        volunteerQuota = givenquota;
         schedList = newList;
         solutionList = new ArrayList<ScheduleElement>();
         volunteers = new HashMap<>();

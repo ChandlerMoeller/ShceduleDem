@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.io.File;
 public class AdminActivity extends AppCompatActivity {
 
     String xlsfile = "";
+    int newquota = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,12 @@ public class AdminActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "This will run the algorithm", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                Intent intent = new Intent(AdminActivity.this, MainActivity.class);
+                intent.putExtra("editalgorithm", true);
+                intent.putExtra("xlsfile", xlsfile);
+                intent.putExtra("newquota", newquota);
+                startActivity(intent);
             }
         });
     }
@@ -73,7 +81,7 @@ public class AdminActivity extends AppCompatActivity {
 
         if (id == R.id.action_switchuser) {
 
-            if(xlsfile!=null) {
+            if (xlsfile != null) {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor e = settings.edit();
                 e.putBoolean("user", true);
