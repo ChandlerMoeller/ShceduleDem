@@ -45,13 +45,15 @@ public class FileBrowserActivity extends AppCompatActivity {
                 if(xlsfile!=null) {
                     e.putString("xlsfile", xlsfile);
                     e.commit();
-                    if(settings.getBoolean("user", true)) {
+                    if(settings.getBoolean("pollview", true)) {
                         Intent intent = new Intent(FileBrowserActivity.this, MainActivity.class);
                         intent.putExtra("xlsfile", xlsfile);
+                        intent.putExtra("scheduleview", false);
                         startActivity(intent);
                     } else {
-                        Intent intent = new Intent(FileBrowserActivity.this, AdminActivity.class);
+                        Intent intent = new Intent(FileBrowserActivity.this, MainActivity.class);
                         intent.putExtra("xlsfile", xlsfile);
+                        intent.putExtra("scheduleview", true);
                         startActivity(intent);
                     }
                 }

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     String xlsfile = "";
     Boolean editalgorithm = false;
     int newquota = -1;
+    boolean scheduleview = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         xlsfile = current_intent.getStringExtra("xlsfile");
         editalgorithm = current_intent.getBooleanExtra("editalgorithm", false);
         newquota = current_intent.getIntExtra("newquota", -1);
+        scheduleview = current_intent.getBooleanExtra("scheduleview", false);
+
+        if(scheduleview == false) {
+            getSupportActionBar().setTitle("Poll View");
+        } else {
+            getSupportActionBar().setTitle("Scheduled View");
+        }
 
         if (findViewById(R.id.fragment_container) != null) {
 
@@ -50,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("xlsfile", xlsfile);
             bundle.putBoolean("editalgorithm", editalgorithm);
             bundle.putInt("newquota", newquota);
+            bundle.putBoolean("scheduleview", scheduleview);
             sdf.setArguments(bundle);
 
             ft.add(R.id.fragment_container, sdf);
@@ -89,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_switchadmin) {
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor e = settings.edit();
-            e.putBoolean("user", false);
+            e.putBoolean("pollview", false);
             e.commit();
 
             Intent current_intent = getIntent();
@@ -99,6 +109,34 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, AdminActivity.class);
                 intent.putExtra("xlsfile", xlsfile);
                 startActivity(intent);
+            }
+            return true;
+        }
+
+        if (id == R.id.action_switchscheduleduser) {
+
+            if (xlsfile != null) {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor e = settings.edit();
+
+                if(scheduleview == false) {
+                    e.putBoolean("pollview", false);
+                    e.commit();
+
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.putExtra("xlsfile", xlsfile);
+                    intent.putExtra("scheduleview", true);
+                    startActivity(intent);
+                } else {
+                    e.putBoolean("pollview", true);
+                    e.commit();
+
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.putExtra("xlsfile", xlsfile);
+                    intent.putExtra("scheduleview", false);
+                    startActivity(intent);
+                }
+
             }
             return true;
         }

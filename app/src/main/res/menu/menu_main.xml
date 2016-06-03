@@ -13,4 +13,9 @@
         android:orderInCategory="100"
         android:title="@string/action_switchadmin"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_switchscheduleduser"
+        android:orderInCategory="100"
+        android:title="@string/action_switchviewtype"
+        app:showAsAction="never" />
 </menu>

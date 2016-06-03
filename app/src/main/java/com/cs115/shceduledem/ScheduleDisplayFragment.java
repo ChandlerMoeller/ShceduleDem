@@ -81,6 +81,8 @@ public class ScheduleDisplayFragment extends Fragment {
 
             //If the XLS is modified AND we are scheduleview we will need to run the algorithm
             //If editaglorithm is true then we are coming from admin options
+            Log.d("banana1: ", ""+ismodified);
+            Log.d("banana2: ", ""+scheduledview);
             if((ismodified && scheduledview) || editalgorithm) {
                 if(editalgorithm){
                     try {

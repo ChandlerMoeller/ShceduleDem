@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">ScheduleDem</string>
     <string name="action_help">Help</string>
-    <string name="action_switchadmin">Switch to Admin</string>
-    <string name="action_switchuser">Switch to User</string>
+    <string name="action_switchadmin">Admin Options</string>
+    <string name="action_switchuser">View Poll</string>
+    <string name="action_switchscheduleduser">Scheduled View</string>
+    <string name="action_switchviewtype">Switch View Type</string>
     <string name="action_share_email">Share via email</string>
     <string name="title_activity_main">User View</string>
     <string name="title_activity_admin">Admin View</string>
