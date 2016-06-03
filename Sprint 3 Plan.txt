@@ -21,8 +21,8 @@ User story 2: As an event scheduler I want to be able to able to schedule with t
 -Test Algorithm (3)
 
 User Story 3: As a volunteer, I want to be able to view the modified schedule to see when I am needed
--Use the algorithm options to add the algorithm result onto XLS, to create the modified XLS (3)
--Make the display take in a Mod XLS and display it (3)
+-Use the algorithm options to add the algorithm result onto XLS, to create the modified XLS (4)
+-Make the display take in a Mod XLS and display it (4)
 -UI adjustments for multiple views and the architecture for the multiple views (2)
 -Test (1.5)
 	
