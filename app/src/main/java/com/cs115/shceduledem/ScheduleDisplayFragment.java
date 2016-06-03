@@ -30,16 +30,10 @@ public class ScheduleDisplayFragment extends Fragment {
     private ScheduleDisplayAdapter aa;
     String xlsfile = "";
 
-    //
-    //TODO: Chris, if this is true then we need to rewrite the XLS/MOD XLS into a MOD XLX and use newquota as the new quota
-    //
     //This will be true if coming from Admin Options
     Boolean editalgorithm = false;
     int quota = -1;
 
-    //
-    //TODO: Chris, update the below variable (ismodified) from the XLS
-    //
     //This will be true if we are dealing with a modified XLS
     //This will be used as a check (i.e. if someone tries to switch to scheduleview with an UNMODIFIED schedule)
     Boolean ismodified = false;
@@ -84,16 +78,10 @@ public class ScheduleDisplayFragment extends Fragment {
             } else {
                 freeText(sheet);
             }
-            //
-            //TODO: Chris, this is where the algorithm is run
-            //
 
             //If the XLS is modified AND we are scheduleview we will need to run the algorithm
-                //Chris, you should update the quota if it is modified
             //If editaglorithm is true then we are coming from admin options
-                //In this case the chosen quota option has been passed in already and is the quota variable
             if((ismodified && scheduledview) || editalgorithm) {
-                Log.d("ayyyyyy", ""+quota);
                 if(editalgorithm){
                     try {
                         // code adapted from http://stackoverflow.com/questions/11338383/writing-to-an-existing-excel-file
@@ -107,19 +95,16 @@ public class ScheduleDisplayFragment extends Fragment {
                         modSheet.addCell(modCell);
                         modXLS.write();
                         modXLS.close();
-                        wkb.close();
                     }catch(IOException e){
                         e.printStackTrace();
                     }catch(WriteException e){
                         e.printStackTrace();
                     }
-                }else {
-                    if(ismodified) {
-                        Sheet sheet1 = wkb.getSheet(0);
-                        quota = Integer.parseInt(sheet.getCell(0, 2).getContents());
-                    }
-                    wkb.close();
+                }else if(ismodified) {
+                    quota = Integer.parseInt(sheet.getCell(0, 2).getContents());
                 }
+                wkb.close();
+                Log.d("ayyyyyy", ""+quota);
                 NetworkMaker myNetwork = new NetworkMaker(aList, quota);
                 Log.d("Network", myNetwork.toString());
 
