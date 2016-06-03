@@ -15,12 +15,14 @@ import android.widget.ListView;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.Boolean;
 import java.util.ArrayList;
 
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.*;
 
 public class ScheduleDisplayFragment extends Fragment {
 
@@ -55,7 +57,7 @@ public class ScheduleDisplayFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         aList = new ArrayList<ScheduleElement>();
-        aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
+        //aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -65,20 +67,23 @@ public class ScheduleDisplayFragment extends Fragment {
             scheduledview = bundle.getBoolean("scheduleview", false);
         }
         Log.d("Test1", "SDF XLS IS: " + xlsfile);
+        File xlsFilePath = new File((Environment.getExternalStorageDirectory().getPath() + xlsfile));
 
         try {
-            Workbook wkb = Workbook.getWorkbook(new File(Environment.getExternalStorageDirectory().getPath() + xlsfile));
+            Workbook wkb = Workbook.getWorkbook(xlsFilePath);
 
             Sheet sheet = wkb.getSheet(0);
 
+            Log.d("ismodified????", sheet.getCell(0, 2).getContents());
+            if(!sheet.getCell(0, 2).getContents().equals("")){
+                ismodified = true;
+            }
 
             if (sheet.getCell(0, 4).getContents().equals("")) {
                 calendar(sheet);
             } else {
                 freeText(sheet);
             }
-
-
             //
             //TODO: Chris, this is where the algorithm is run
             //
@@ -88,15 +93,37 @@ public class ScheduleDisplayFragment extends Fragment {
             //If editaglorithm is true then we are coming from admin options
                 //In this case the chosen quota option has been passed in already and is the quota variable
             if((ismodified && scheduledview) || editalgorithm) {
+                Log.d("ayyyyyy", ""+quota);
+                if(editalgorithm){
+                    try {
+                        // code adapted from http://stackoverflow.com/questions/11338383/writing-to-an-existing-excel-file
+                        //Workbook oldXLS = Workbook.getWorkbook(xlsFilePath);
+                        WritableWorkbook modXLS = Workbook.createWorkbook(xlsFilePath,wkb);
+                        WritableSheet modSheet = modXLS.getSheet(0);
+                        WritableCell modCell;
+                        String newQuota = "" + quota;
+                        Label mod = new Label(0,2,newQuota);
+                        modCell = (WritableCell) mod;
+                        modSheet.addCell(modCell);
+                        modXLS.write();
+                        modXLS.close();
+                        wkb.close();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }catch(WriteException e){
+                        e.printStackTrace();
+                    }
+                }else {
+                    if(ismodified) {
+                        Sheet sheet1 = wkb.getSheet(0);
+                        quota = Integer.parseInt(sheet.getCell(0, 2).getContents());
+                    }
+                    wkb.close();
+                }
                 NetworkMaker myNetwork = new NetworkMaker(aList, quota);
                 Log.d("Network", myNetwork.toString());
 
                 aList = myNetwork.getSolutionList();
-
-                //
-                //TODO: Chris, write the new XLS here
-                //
-
             }
 
 
@@ -117,7 +144,7 @@ public class ScheduleDisplayFragment extends Fragment {
             e.printStackTrace();
         }
 
-
+        aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
