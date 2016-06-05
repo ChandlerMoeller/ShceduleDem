@@ -1,0 +1,18 @@
+Sprint 3 review:
+Completed User stories: 
+(3)As an Event Administrator, I want to be able to send the modified schedule to the volunteers through the app via email
+(10)As an event scheduler I want to be able to able to schedule with the option of having a volunteer hour quota
+(11.5)As a volunteer, I want to be able to view the modified schedule to see when I am needed
+
+Sprint 3 Retrospective:
+-Start doing:
+Have better SCRUM meeting attendance.
+Have better communication between all members.
+-Stop doing:
+Not communicating.
+Not attending SCRUM meetings.
+Procrastinating/Submitting work last minute
+-Continue doing:
+Using google hangouts, trello.
+Getting tasks done on time.
+Team members always being available / easy to talk to / friendly

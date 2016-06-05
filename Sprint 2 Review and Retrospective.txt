@@ -3,7 +3,7 @@ Completed User stories:
 (7) As an event scheduler I want to be able to have options to have
 options to improve scheduling for volunteer events
 
-(2) As a volunteer, I want to be able to view the modified schedule
+(15) As a volunteer, I want to be able to view the modified schedule
 to see when I am needed
 
 (8.5) As an Event administrator, I want to be able to send the modified
@@ -21,4 +21,3 @@ Sprint 2 Retrospective:
 	Useage of slack, trello
 	Getting tasks done on time
 	Going beyond the call of duty
-	
