@@ -14,17 +14,19 @@ modifications based on time matches and event administrator control.
 
 User story 1: As an event scheduler I want to be able to have options to have
 options to improve scheduling for volunteer events
-	-option to set amount of volunteers needed for a certain time
-frame (2 hours)
-	-option to set the amount of booths, tables, stations (2 hours)
-	-option for how many people needed per booths, tables, 
-stations (3 hours)
+	-implement barebones algorithm in java (4 hours)
+	-implement barebones algorithm into app (3 hours)
+	-test (2 hours)
 	Total user story: 7 hours
 
-User story 2: As a volunteer, I want to be able to view the modified schedule
+User story 2: As a volunteer, I want to be able to view the schedule
 to see when I am needed
-	-make XLS Viewer accept modified XLS input (2 hours)
-	Total user story: 2 hours
+	-Fix XLS to Java (4 hours)
+	-make XLS Viewer accept XLS input (3 hours)
+	-Polish UI (4 hours)
+	-Modify the file browser (2 hours)
+	-test (2 hours)
+	Total user story: 15 hours
 
 User story 3: As an Event administrator, I want to be able to send the modified
 schedule to the volunteers through the app via email
@@ -36,10 +38,10 @@ list (3.5 hours)
 	Total user story: 8.5 hours
 
 Task Assignments chosen by members:
-Anthony Pan: User Story 1, task 1; User Story 2, task 1
-Chandler Moeller: User Story 2, task 3, task 4, task 5
+Anthony Pan: User Story 1, task 3; User Story 2, task 5
+Chandler Moeller: User Story 2, task 3, task 4
 Bryan Tsai: User Story 1, task 2, task 3
-Chris Canchola: User Story 2, task 2, task 5
+Chris Canchola: User Story 2, task 1, task 2
 	
 Burnup Chart:
 	https://docs.google.com/spreadsheets/d/1yCOUNCRKyHqyZytINXiBcNN2bnfSRE1MstwYmEhOVnA/edit?usp=sharing
