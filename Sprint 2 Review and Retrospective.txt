@@ -6,6 +6,7 @@ options to improve scheduling for volunteer events
 (15) As a volunteer, I want to be able to view the modified schedule
 to see when I am needed
 
+//Didn't Do
 (8.5) As an Event administrator, I want to be able to send the modified
 schedule to the volunteers through the app via email
 
