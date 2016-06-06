@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,50 +69,53 @@ public class ScheduleDisplayFragment extends Fragment {
 
             Sheet sheet = wkb.getSheet(0);
 
-            Log.d("ismodified????", sheet.getCell(0, 2).getContents());
-            if(!sheet.getCell(0, 2).getContents().equals("")){
-                ismodified = true;
-            }
+//            Log.d("ismodified????", sheet.getCell(0, 2).getContents());
 
-            if (sheet.getCell(0, 4).getContents().equals("")) {
-                calendar(sheet);
-            } else {
-                freeText(sheet);
-            }
+            //if (sheet.) {
 
-            //If the XLS is modified AND we are scheduleview we will need to run the algorithm
-            //If editaglorithm is true then we are coming from admin options
-            Log.d("banana1: ", ""+ismodified);
-            Log.d("banana2: ", ""+scheduledview);
-            if((ismodified && scheduledview) || editalgorithm) {
-                if(editalgorithm){
-                    try {
-                        // code adapted from http://stackoverflow.com/questions/11338383/writing-to-an-existing-excel-file
-                        //Workbook oldXLS = Workbook.getWorkbook(xlsFilePath);
-                        WritableWorkbook modXLS = Workbook.createWorkbook(xlsFilePath,wkb);
-                        WritableSheet modSheet = modXLS.getSheet(0);
-                        WritableCell modCell;
-                        String newQuota = "" + quota;
-                        Label mod = new Label(0,2,newQuota);
-                        modCell = (WritableCell) mod;
-                        modSheet.addCell(modCell);
-                        modXLS.write();
-                        modXLS.close();
-                    }catch(IOException e){
-                        e.printStackTrace();
-                    }catch(WriteException e){
-                        e.printStackTrace();
-                    }
-                }else if(ismodified) {
-                    quota = Integer.parseInt(sheet.getCell(0, 2).getContents());
+                if (!sheet.getCell(0, 2).getContents().equals("")) {
+                    ismodified = true;
                 }
-                wkb.close();
-                Log.d("ayyyyyy", ""+quota);
-                NetworkMaker myNetwork = new NetworkMaker(aList, quota);
-                Log.d("Network", myNetwork.toString());
 
-                aList = myNetwork.getSolutionList();
-            }
+                if (sheet.getCell(0, 4).getContents().equals("")) {
+                    calendar(sheet);
+                } else {
+                    freeText(sheet);
+                }
+
+                //If the XLS is modified AND we are scheduleview we will need to run the algorithm
+                //If editaglorithm is true then we are coming from admin options
+                Log.d("banana1: ", "" + ismodified);
+                Log.d("banana2: ", "" + scheduledview);
+                if ((ismodified && scheduledview) || editalgorithm) {
+                    if (editalgorithm) {
+                        try {
+                            // code adapted from http://stackoverflow.com/questions/11338383/writing-to-an-existing-excel-file
+                            //Workbook oldXLS = Workbook.getWorkbook(xlsFilePath);
+                            WritableWorkbook modXLS = Workbook.createWorkbook(xlsFilePath, wkb);
+                            WritableSheet modSheet = modXLS.getSheet(0);
+                            WritableCell modCell;
+                            String newQuota = "" + quota;
+                            Label mod = new Label(0, 2, newQuota);
+                            modCell = (WritableCell) mod;
+                            modSheet.addCell(modCell);
+                            modXLS.write();
+                            modXLS.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (WriteException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (ismodified) {
+                        quota = Integer.parseInt(sheet.getCell(0, 2).getContents());
+                    }
+                    wkb.close();
+                    Log.d("ayyyyyy", "" + quota);
+                    NetworkMaker myNetwork = new NetworkMaker(aList, quota);
+                    Log.d("Network", myNetwork.toString());
+
+                    aList = myNetwork.getSolutionList();
+                }
 
 
 
@@ -125,10 +129,15 @@ public class ScheduleDisplayFragment extends Fragment {
             }
         }*/
 
+            //}
+
         } catch (BiffException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+            Toast.makeText(getActivity(), "BAD XLS Spreadsheet",
+                    Toast.LENGTH_LONG).show();
         }
 
         aa = new ScheduleDisplayAdapter(getContext(), R.layout.schedule_element, aList);
@@ -198,12 +207,12 @@ public class ScheduleDisplayFragment extends Fragment {
                 for (int col = 1; col < sheet.getColumns(); ++col) {
                     if (sheet.getCell(col, 5).getContents().equals(timeString)) {
                         timeStringCol = col;
-                        while(sheet.getCell(col, 4).getContents().equals("")) {
+                        while (sheet.getCell(col, 4).getContents().equals("")) {
                             --col;
                         }
                         dayString = sheet.getCell(col, 4).getContents();
                         col = timeStringCol;
-                        while(sheet.getCell(col, 3).getContents().equals("")) {
+                        while (sheet.getCell(col, 3).getContents().equals("")) {
                             --col;
                         }
                         monthString = sheet.getCell(col, 3).getContents();
