@@ -17,7 +17,7 @@ to improve scheduling for volunteer events
 	-implement barebones algorithm in java (4 hours)
 	-implement barebones algorithm into app (3 hours)
 	-test (2 hours)
-	Total user story: 7 hours
+	Total user story: 9 hours
 
 User story 2: As a volunteer, I want to be able to view the schedule
 to see when I am needed
