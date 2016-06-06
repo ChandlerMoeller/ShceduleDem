@@ -18,14 +18,11 @@ Sprint 1:
 -(5)As a problem solver, I want scheduling to be done using a flexible, yet powerful method
 
 Sprint 2:
--(2)As an event scheduler I want to be able to have options to improve scheduling for volunteer events
--(3)As a volunteer, I want to be able to view the modified schedule to see when I am needed
--(8)(Stretch): As an Event Administrator, I want to be able to send the modified schedule to the volunteers through the app via email
+-(9)As an event scheduler I want to be able to have options to improve scheduling for volunteer events
+-(15)As a volunteer, I want to be able to view the modified schedule to see when I am needed
 
 Sprint 3:
--(5)As a Volunteer User, I want to be able to see Doodle XLS without the hassle of having to be sent it via email and loading it into the app
--(2)As a Volunteer User, I want to be able to see real time changes to the Modified XLS without the hassle of having to be resent the 
-       modified XLS via email after every change
--(5)As an Event Administrator, I want to be able to appoint other people that can edit the event
-
+-(3)As an Event Administrator, I want to be able to send the modified schedule to the volunteers through the app via email
+-(10)As an event scheduler I want to be able to able to schedule with the option of having a volunteer hour quota
+-(11.5)As a volunteer, I want to be able to view the modified schedule to see when I am needed
 
