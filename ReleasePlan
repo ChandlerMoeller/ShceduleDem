@@ -9,8 +9,8 @@ Release Date- 3 June 2016
 
 
 ShceduleDem is a basic volunteer scheduling app at one's convenience.  It is an Android application which feeds a Doodle poll link into 
-the application, which then schedules people based on different circumstances and criteria set by the user (i.e. people per booth) and 
-is shareable.
+the application, which then schedules people based on different circumstances and criteria set by the user (i.e. quota) and 
+is shareable via email.
 
 Sprint 1:
 -(5)As an average person, I want an intuitive UI that makes doing what I want easy (highest priority for sprint 1)
