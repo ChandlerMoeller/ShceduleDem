@@ -1,0 +1,52 @@
+System and Unit Test Report
+ScheduleDem
+Team #13 Moeller et al.
+6/1/16
+
+User story 1 from sprint 1: As an average person, I want an intuitive UI that 
+makes doing what I want easy
+
+User story 2 from sprint 1: As a doodle poll user, I want to be able to view 
+doodle poll results on my phone for scheduling
+
+User story 3 from sprint 1: As a problem solver, I want scheduling to be done 
+using a flexible, yet powerful method
+
+Scenario: start ScheduleDem app;
+	Enter: <doodle poll link>
+	Click 'done'
+	Doodle poll ser should see doodle poll results with availability
+
+User story 1 from sprint 2: As an event scheduler, I want to be able to have 
+options to improve scheduling for volunteer events
+
+User story 2 from sprint 2: As a volunteer, I want to be able to view the 
+schedule to see when I am needed
+
+
+User story 3 from sprint 2: As an Event Administrator, I want to be able to 
+send the modified schedule to the volunteers through the app via email
+
+Scenario: start ScheduleDem app;
+	Enter: <doodle poll link>
+	Click 'done'
+	Event scheduler should see options
+	Volunteer user should see new doodle poll results with availability
+	
+
+User story 1 from sprint 3: As an Event Administrator, I want to be able to 
+send the modified schedule to the volunteers through the app via email
+
+User story 2 from sprint 3: As an event scheduler, I want to be able to 
+schedule with the option of having a volunteer hour quota
+
+User story 3 from sprint 3: As a volunteer, I want to be able to view the 
+modified schedule to see when I am needed
+
+Scenario: start ScheduleDem app;
+	Enter: <doodle poll link>
+	Click 'done'
+	"Assume a quota of at least 1"
+	Admin users should be able to send email
+	Event scheduler should still have options of their choice
+	Volunteers should be able to open up modified schedule with time tables
