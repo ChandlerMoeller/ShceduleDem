@@ -1,0 +1,20 @@
+Chris Canchola
+Module: Display of xls/modified xls file
+
+Equivalence Classes:
+  xls files following one of the two xls formats outputted by Doodle.com
+    free text format files
+    calendar format files
+  xls files modified by ScheduleDem
+    modified free text files
+    modified calendar files
+  any other xls files
+  
+Test cases (based on xls files found in the testing directory):
+-Doodle.xls was tested to satisfy the "calendar format files" equivalence class
+-Doodle2.xls was tested to satisfy the "free text format files" equivalence class
+-Doodle3.xls was tested to satisfy the "modified calendar format files" equivalence class
+-Doodle4.xls was tested to satisfy the "modified free text files" equivalence class
+-notDoodle.xls was tested to satisfy the "any other xls files" equivalence class
+
+  
