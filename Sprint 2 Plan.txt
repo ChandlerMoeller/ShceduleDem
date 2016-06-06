@@ -12,8 +12,8 @@ Sprint Completion Date: 5/24/16
 Goal: Have an improved app that has the implements of the first UI plus 
 modifications based on time matches and event administrator control.
 
-User story 1: As an event scheduler I want to be able to have options to have
-options to improve scheduling for volunteer events
+User story 1: As an event scheduler I want to be able to have options 
+to improve scheduling for volunteer events
 	-implement barebones algorithm in java (4 hours)
 	-implement barebones algorithm into app (3 hours)
 	-test (2 hours)
