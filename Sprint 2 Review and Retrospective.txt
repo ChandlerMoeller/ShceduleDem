@@ -1,6 +1,6 @@
 Sprint 2 review:
 Completed User stories:
-(7) As an event scheduler I want to be able to have options to have
+(9) As an event scheduler I want to be able to have options to have
 options to improve scheduling for volunteer events
 
 (15) As a volunteer, I want to be able to view the modified schedule
