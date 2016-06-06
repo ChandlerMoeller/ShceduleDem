@@ -1,0 +1,12 @@
+Bryan Testing - Algorithm
+
+Testing the algorithm on instance of Doodle-Bryan
+
+Input: Doodle-Bryan xls
+
+Output:
+   With full debug on, should output an assignment of Bryan Tsai to exactly 5 times listed in the doodle poll which he responded “OK” to, with no duplicates.
+   The max flow through the network is 5.
+
+Result:
+   Bryan Tsai was scheduled to exactly 5 times listed in the doodle poll to which he responded “OK,” and the max flow through the network was indeed 5.
